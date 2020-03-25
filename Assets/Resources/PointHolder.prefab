@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 8607366523161943481}
   - component: {fileID: 7949786572448839203}
   - component: {fileID: 7951604660226572201}
-  - component: {fileID: 6149497463118306980}
+  - component: {fileID: 8945571874633700332}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -115,7 +115,7 @@ Transform:
   m_GameObject: {fileID: 5132366663257271235}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 3122432101077234134}
   m_RootOrder: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   onHoverExited:
     m_PersistentCalls:
       m_Calls: []
---- !u!54 &6149497463118306980
+--- !u!54 &8945571874633700332
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

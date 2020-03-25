@@ -13,7 +13,7 @@ public class ObjectSyncTesting : MonoBehaviour
 
     public void CreateGameObject()
     {
-        GameObject holder = PhotonNetwork.Instantiate(pointHolder.name, new Vector3(0, 1, 1), Quaternion.identity, 0);
+        GameObject holder = PhotonNetwork.Instantiate(pointHolder.name, new Vector3(0, 0.1f, 1), Quaternion.identity, 0);
 
         PhotonView pView = holder.GetComponent<PhotonView>();
 
@@ -21,15 +21,15 @@ public class ObjectSyncTesting : MonoBehaviour
 
         for (int i = 0; i < numberOfPoints; i++)
         {
-            float x = Random.Range(-0.5f, 0.5f), y = Random.Range(0.5f, 1.5f), z = Random.Range(0.5f, 1.5f);
+            float x = Random.Range(-0.05f, 0.05f), y = Random.Range(0.05f, 0.15f), z = Random.Range(0.95f, 1.05f);
             Vector3 p = new Vector3(x, y, z);
             pointsArray[i] = p;
         }
 
-        //foreach (Vector3 p in pointsArray)
-        //{
-        //    Debug.Log($"X: {p.x}\tY: {p.y}\tZ: {p.z}");
-        //}
+        foreach (Vector3 p in pointsArray)
+        {
+            Debug.Log($"X: {p.x}\tY: {p.y}\tZ: {p.z}");
+        }
 
         pView.RPC("CreatePoints", RpcTarget.AllBuffered, pView.ViewID, pointsArray);
 

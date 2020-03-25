@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Lobby.unity
+    guid: 6dbc375dba36df84c849baa6974b13c6
+  - enabled: 1
+    path: Assets/Scenes/WMR.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Hololens.unity
+    guid: e7362401abd483343a5faa2ddfa7bffb
   m_configObjects: {}

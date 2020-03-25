@@ -154,7 +154,7 @@ PlayerSettings:
       protectedContext: 0
       v2Signing: 0
     enable360StereoCapture: 0
-  isWsaHolographicRemotingEnabled: 0
+  isWsaHolographicRemotingEnabled: 1
   protectGraphicsMemory: 0
   enableFrameTimingStats: 0
   useHDRDisplay: 0
@@ -580,7 +580,7 @@ PlayerSettings:
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: BuildTesting
-  metroPackageVersion: 1.0.0.5
+  metroPackageVersion: 1.0.0.6
   metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany

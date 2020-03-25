@@ -19,6 +19,7 @@ public class PointHolder : MonoBehaviour, IMixedRealityFocusHandler
         foreach (Vector3 p in positions)
         {
             Instantiate(point, p, Quaternion.identity, cubeTransform);
+            //Instantiate(point, p, Quaternion.identity);
         }
     }
 
