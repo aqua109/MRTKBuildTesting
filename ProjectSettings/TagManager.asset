@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TrelloForm
   - Bullet
+  - Graph
   layers:
   - Default
   - TransparentFX
