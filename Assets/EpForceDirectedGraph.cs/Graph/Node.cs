@@ -1,4 +1,4 @@
-﻿/*! 
+﻿/*!
 @file Node.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
@@ -35,6 +35,7 @@ THE SOFTWARE.
 An Interface for the Node Class.
 
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,8 +43,13 @@ using System.Text;
 
 namespace EpForceDirectedGraph.cs
 {
+    // Used to see if the node is being held or not
+    public enum nodeStatus { free, held }
+
     public class Node
     {
+        public Point pt;
+
         public Node(string iId, NodeData iData = null)
         {
             ID = iId;
@@ -55,6 +61,13 @@ namespace EpForceDirectedGraph.cs
                 Data.mass = iData.mass;
             }
             Pinned = false;
+            status = nodeStatus.free;
+        }
+
+        public NodeAssociation associatedNodeObject
+        {
+            get;
+            set;
         }
 
         public string ID
@@ -62,22 +75,30 @@ namespace EpForceDirectedGraph.cs
             get;
             private set;
         }
+
+        public nodeStatus status
+        {
+            get;
+            set;
+        }
+
         public NodeData Data
         {
             get;
             private set;
         }
 
-
         public bool Pinned
         {
             get;
             set;
         }
+
         public override int GetHashCode()
         {
             return ID.GetHashCode();
         }
+
         public override bool Equals(System.Object obj)
         {
             // If parameter is null return false.

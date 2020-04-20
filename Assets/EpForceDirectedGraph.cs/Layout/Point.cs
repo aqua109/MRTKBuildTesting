@@ -1,4 +1,4 @@
-﻿/*! 
+﻿/*!
 @file Point.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
@@ -35,6 +35,7 @@ THE SOFTWARE.
 An Interface for the Point Class.
 
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,9 +45,9 @@ namespace EpForceDirectedGraph.cs
 {
     public class Point
     {
-        public Point(AbstractVector iPosition, AbstractVector iVelocity, AbstractVector iAcceleration,Node iNode)
+        public Point(AbstractVector iPosition, AbstractVector iVelocity, AbstractVector iAcceleration, Node iNode)
         {
-            position=iPosition;
+            position = iPosition;
             node = iNode;
             velocity = iVelocity;
             acceleration = iAcceleration;
@@ -56,6 +57,7 @@ namespace EpForceDirectedGraph.cs
         {
             return position.GetHashCode();
         }
+
         public override bool Equals(System.Object obj)
         {
             // If parameter is null return false.
@@ -72,7 +74,7 @@ namespace EpForceDirectedGraph.cs
             }
 
             // Return true if the fields match:
-            return position==p.position;
+            return position == p.position;
         }
 
         public bool Equals(Point p)
@@ -84,7 +86,7 @@ namespace EpForceDirectedGraph.cs
             }
 
             // Return true if the fields match:
-            return position==p.position;
+            return position == p.position;
         }
 
         public static bool operator ==(Point a, Point b)
@@ -112,11 +114,16 @@ namespace EpForceDirectedGraph.cs
 
         public void ApplyForce(AbstractVector force)
         {
-            acceleration.Add(force/mass);
+            acceleration.Add(force / mass);
         }
 
-        public AbstractVector position { get; set; }
+        public AbstractVector position
+        {
+            get; set;
+        }
+
         public Node node { get; private set; }
+
         public float mass
         {
             get
@@ -128,7 +135,8 @@ namespace EpForceDirectedGraph.cs
                 node.Data.mass = value;
             }
         }
+
         public AbstractVector velocity { get; private set; }
         public AbstractVector acceleration { get; private set; }
-     }
+    }
 }

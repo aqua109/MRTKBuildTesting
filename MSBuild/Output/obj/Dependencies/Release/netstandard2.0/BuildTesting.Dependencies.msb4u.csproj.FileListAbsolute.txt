@@ -1,0 +1,2 @@
+C:\Users\Dan\Documents\Github\MRTKBuildTesting\Assets\Dependencies\netstandard2.0\BuildTesting.Dependencies.msb4u.deps.json
+C:\Users\Dan\Documents\Github\MRTKBuildTesting\MSBuild\Output\obj\Dependencies\Release\netstandard2.0\BuildTesting.Dependencies.msb4u.csprojAssemblyReference.cache

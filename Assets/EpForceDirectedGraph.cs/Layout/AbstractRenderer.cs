@@ -1,4 +1,4 @@
-﻿/*! 
+﻿/*!
 @file AbstractRenderer.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/epForceDirectedGraph.cs>
@@ -35,6 +35,7 @@ THE SOFTWARE.
 An Interface for the Abstract Renderer Class.
 
 */
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,28 +46,33 @@ namespace EpForceDirectedGraph.cs
     public abstract class AbstractRenderer : IRenderer
     {
         protected IForceDirected forceDirected;
+
         public AbstractRenderer(IForceDirected iForceDirected)
         {
             forceDirected = iForceDirected;
         }
 
-
         public void Draw(float iTimeStep)
         {
             forceDirected.Calculate(iTimeStep);
             //Clear();
-            forceDirected.EachEdge(delegate(Edge edge, Spring spring)
+            forceDirected.EachEdge(delegate (Edge edge, Spring spring)
             {
-                drawEdge(edge, spring.point1.position, spring.point2.position);
+                if (edge.Source.status == nodeStatus.free & edge.Target.status == nodeStatus.free)
+                {
+                    drawEdge(edge, spring.point1.position, spring.point2.position);
+                }
             });
-            forceDirected.EachNode(delegate(Node node, Point point)
+            forceDirected.EachNode(delegate (Node node, Point point)
             {
                 drawNode(node, point.position);
             });
         }
-        public abstract void Clear();
-        protected abstract void drawEdge(Edge iEdge, AbstractVector iPosition1, AbstractVector iPosition2);
-        protected abstract void drawNode(Node iNode, AbstractVector iPosition);
 
+        public abstract void Clear();
+
+        protected abstract void drawEdge(Edge iEdge, AbstractVector iPosition1, AbstractVector iPosition2);
+
+        protected abstract void drawNode(Node iNode, AbstractVector iPosition);
     }
 }

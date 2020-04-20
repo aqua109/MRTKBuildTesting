@@ -5,16 +5,18 @@ using EpForceDirectedGraph.cs;
 
 public class ForceDirectedGraphTesting : MonoBehaviour
 {
-
-
     [Range(1, 100)]
     public float stiffness = 81;
+
     [Range(1, 1000)]
     public float repulsion = 500;
+
     [Range(0, 1)]
     public float damping = 0.5f;
+
     [Range(0, 10)]
     public float threadshold = 0.5f;
+
     [Range(1, 1000)]
     public int numberOfNodes = 50;
 
@@ -137,6 +139,11 @@ public class ForceDirectedGraphTesting : MonoBehaviour
 
         graphRenderer = new Renderer(m_fdgPhysics);
 
+        foreach (var edge in graph.edges)
+        {
+            Debug.Log(edge.ToString());
+        }
+
         //float timeStep = 0.05f;
         //graphRenderer.Draw(timeStep);
     }
@@ -149,9 +156,10 @@ public class ForceDirectedGraphTesting : MonoBehaviour
         }
     }
 
-    class Renderer : AbstractRenderer
+    private class Renderer : AbstractRenderer
     {
         private List<GameObject> gameObjects = new List<GameObject>();
+
         public Renderer(IForceDirected iForceDirected) : base(iForceDirected)
         {
             Transform graphHolder = GameObject.FindWithTag("Graph").transform;
@@ -163,6 +171,12 @@ public class ForceDirectedGraphTesting : MonoBehaviour
                 //GameObject nodeObj = Instantiate(Resources.Load("Node") as GameObject, new Vector3(n.Data.initialPostion.x, n.Data.initialPostion.y, n.Data.initialPostion.z), Quaternion.identity, graphHolder);
                 GameObject nodeObj = Instantiate(nodePrefab, graphHolder);
                 nodeObj.name = n.Data.label;
+
+                // Passing the value of the underlying node to the 'Interface' between the GameObject and the actual FDG object
+
+                var na = nodeObj.GetComponent<NodeAssociation>();
+                na._associatedNode = n;
+                n.associatedNodeObject = na;
                 n.Data.gameObject = nodeObj;
                 gameObjects.Add(nodeObj);
             }
@@ -205,8 +219,6 @@ public class ForceDirectedGraphTesting : MonoBehaviour
             //LineRenderer lineRenderer = edgeObj.GetComponent<LineRenderer>();
             //lineRenderer.SetPosition(0, nodeEdge.node1);
             //lineRenderer.SetPosition(1, nodeEdge.node2);
-
-
         }
 
         protected override void drawNode(Node iNode, AbstractVector iPosition)
