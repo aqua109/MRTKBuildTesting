@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Microsoft.MixedReality.Toolkit.Utilities;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,49 +10,82 @@ public class TrelloLoader : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
     public Button display;
-    public TrelloConnector trelloConnector;
+    public TrelloManager trelloManager;
 
     private Card[] cards;
     private List[] lists;
     private Label[] labels;
     private Member[] members;
 
+    public GameObject trelloBoard;
     public GameObject trelloList;
     public GameObject trelloCard;
 
+    private GameObject boardObj;
+
     private void Start()
     {
-        trelloConnector.Load();
+        trelloManager.Load();
     }
 
     public void PopulateForm()
     {
-        cards = trelloConnector.cards;
-        lists = trelloConnector.lists;
-        labels = trelloConnector.labels;
-        members = trelloConnector.members;
-
-        foreach (List l in lists)
-        {
-            dropdown.options.Add(new TMP_Dropdown.OptionData() { text = l.name });
-        }
+        cards = trelloManager.cards;
+        lists = trelloManager.lists;
+        labels = trelloManager.labels;
+        members = trelloManager.members;
     }
 
-    public void ViewList()
+    public void CreateTrelloBoard()
     {
-        string listName = dropdown.options[dropdown.value].text;
-        List list = new List();
+        boardObj = Instantiate(trelloBoard, new Vector3(0, 0, 2), Quaternion.identity);
 
-        foreach (List l in lists)
+        GridObjectCollection boardOrganiser = boardObj.GetComponent<GridObjectCollection>();
+
+        Dictionary<string, List<string>> isListEmpty = new Dictionary<string, List<string>>();
+
+        foreach (List list in lists)
         {
-            if (listName == l.name)
-            {
-                list = l;
-                break;
-            }
+            isListEmpty.Add(list.id, new List<string>());
         }
 
-        GameObject listObj = Instantiate(trelloList, new Vector3(0, 0, 2), Quaternion.identity);
+        foreach (Card card in cards)
+        {
+            isListEmpty[card.idList].Add(card.id);
+        }
+
+        int count = 0;
+        try
+        {
+            foreach (KeyValuePair<string, List<string>> kvp in isListEmpty)
+            {
+                if (kvp.Value.Count != 0)
+                {
+                    foreach (List list in lists)
+                    {
+                        if (list.id == kvp.Key)
+                        {
+                            StartCoroutine(CreateList(list, boardObj.transform));
+                            break;
+                        }
+                    }
+
+                    count++;
+                }
+            }
+        }
+        catch (MissingReferenceException)
+        {
+            Debug.Log("TrelloBoard was destroyed before instantiation was complete");
+        }
+
+        boardOrganiser.Radius = (float)((count * 2) / (2 * Math.PI));
+        boardOrganiser.UpdateCollection();
+    }
+
+    private IEnumerator CreateList(List list, Transform board)
+    {
+        GameObject listObj = Instantiate(trelloList, board);
 
         TrelloList listVariables = listObj.GetComponent<TrelloList>();
         listVariables.title.text = list.name;
@@ -59,9 +94,12 @@ public class TrelloLoader : MonoBehaviour
         {
             if (c.idList == list.id)
             {
+                yield return null;
                 GameObject cardObj = Instantiate(trelloCard, listVariables.content);
+
+                yield return null;
                 TrelloCard cardVariables = cardObj.GetComponent<TrelloCard>();
-                
+
                 // Labels
                 // if 1 or more labels exist
                 if (c.idLabels.Count != 0)
@@ -108,9 +146,6 @@ public class TrelloLoader : MonoBehaviour
                         {
                             if (m.id == idMember)
                             {
-                                //Debug.Log(m.fullName);
-                                //Debug.Log(memberCount);
-                                //Debug.Log(cardVariables.names[memberCount].text);
                                 string[] initials = m.fullName.Split(' ');
                                 foreach (string s in initials)
                                 {
@@ -129,7 +164,23 @@ public class TrelloLoader : MonoBehaviour
                         memberCount++;
                     }
                 }
+
+                listVariables.cards.Add(cardObj.transform);
             }
         }
+
+        listVariables.verticalLayoutGroup.enabled = true;
+
+        foreach (Transform t in listVariables.cards)
+        {
+            yield return null;
+            t.localScale = new Vector3(1, 1, 1);
+        }
+        
+    }
+
+    public void RemoveTrelloBoard()
+    {
+        Destroy(boardObj);
     }
 }

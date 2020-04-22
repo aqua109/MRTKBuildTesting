@@ -6,7 +6,7 @@ using System.Collections;
 using TMPro;
 using System;
 
-public class TrelloConnector : MonoBehaviour
+public class TrelloManager : MonoBehaviour
 {
     public string key;
     public string token;
@@ -18,6 +18,7 @@ public class TrelloConnector : MonoBehaviour
     public Label[] labels;
 
     public TrelloLoader trelloLoader;
+
 
     public void Load()
     {
@@ -46,7 +47,6 @@ public class TrelloConnector : MonoBehaviour
             labels = JsonConvert.DeserializeObject<Label[]>(json);
         }));
 
-        string loadedAt = DateTime.Now.ToShortTimeString();
         trelloLoader.PopulateForm();
     }
 
